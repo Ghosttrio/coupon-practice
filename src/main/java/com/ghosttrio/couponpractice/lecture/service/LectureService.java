@@ -40,12 +40,11 @@ public class LectureService {
         }
     }
 
-    public String list() {
+    public void list() {
         boolean a = 입장방.contains(0);
         boolean b = 입장방.contains(100);
         boolean c = 대기방.contains(100);
         System.out.println(입장방.size());
-        return "입장방에서 0 유저가 나감? ==> " + a + "입장방에 100 유저가 들어옴? ==> " + b + "대기방에서 100 유저가 나감? ==> " + c;
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 // 100명 입장에 성공하고 나머지는 대기, 앞에 몇 명이 대기하는지 알 수 있다.
+// 모든 인원이 입장에 대기하고 시작을 하면 한 번에 모두 들어오는 로직
 @RestController
 @RequiredArgsConstructor
 public class LectureController {
@@ -27,8 +28,8 @@ public class LectureController {
     }
 
     @GetMapping("/api/lecture/list")
-    public String list() {
-        return lectureService.list();
+    public void list() {
+        lectureService.list();
     }
 }
 
