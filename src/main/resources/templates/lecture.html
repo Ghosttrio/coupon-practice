@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>수강신청</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>수강신청 테스트</h1>
+<button id="requestButton">Request</button>
+<button id="outButton">Out</button>
+<button id="list">List</button>
+
+<script>
+    $(document).ready(function () {
+        // 입장 유저가 나감
+        $('#outButton').click(function () {
+            $.ajax({
+                url: '/api/lecture/out',
+                method: 'POST',
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $('#list').click(function () {
+            $.ajax({
+                url: '/api/lecture/list',
+                method: 'GET',
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        });
+
+
+        // 수강신청 요청
+        $('#requestButton').click(function () {
+            const startTime = Date.now();
+            let requests = [];
+            for (let i = 0; i <= 1100; i++) {
+                requests.push(
+                    $.ajax({
+                        url: '/api/lecture',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({"user": i}),
+                        success: function (response) {
+                            console.log(response);
+                        },
+                        error: function (error) {
+                            console.error(error);
+                        }
+                    })
+                );
+            }
+
+            // 모든 요청이 완료될 때까지 기다림
+            $.when.apply($, requests).done(function () {
+                const endTime = Date.now(); // 요청 완료 시간 기록
+                const totalTime = endTime - startTime; // 총 걸린 시간 계산
+                const requestSpeed = totalTime / 10000; // 평균 요청 처리 시간 계산 (1개 요청당 소요 시간)
+                console.log(`All requests completed in ${totalTime} ms`);
+                console.log(`Average request time: ${requestSpeed.toFixed(2)} ms`);
+            });
+        });
+    });
+</script>
+</body>
+</html>
